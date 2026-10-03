@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<a href="{% url 'dashboard' %}" class="btn btn-secondary mb-3">
+    Back to Dashboard
+</a>
+
+<div class="card">
+    <div class="card-body">
+        <h1>{{ article.title }}</h1>
+
+        <p>
+            <strong>Author:</strong> {{ article.author.username }}
+        </p>
+
+        {% if article.publisher %}
+            <p>
+                <strong>Publisher:</strong> {{ article.publisher.name }}
+            </p>
+        {% endif %}
+
+        {% if article.approved %}
+            <span class="badge bg-success">Approved</span>
+        {% else %}
+            <span class="badge bg-warning text-dark">Pending Review</span>
+        {% endif %}
+
+        <hr>
+
+        <p>{{ article.content }}</p>
+    </div>
+</div>
+
+{% endblock %}

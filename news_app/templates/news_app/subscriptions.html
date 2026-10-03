@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>My Subscriptions</h1>
+<p>Choose the publishers and independent journalist articles you want to follow.</p>
+<p><a href="{% url 'reader_dashboard' %}?feed=subscribed" class="btn btn-primary">Read my subscribed news</a></p>
+<h2>Publishers</h2>
+{% for publisher in publishers %}
+<div class="card card-body mb-3">
+    <h3>{{ publisher.name }}</h3>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="kind" value="publisher">
+        <input type="hidden" name="target_id" value="{{ publisher.id }}">
+        {% if publisher.id in publisher_ids %}
+            <p>You are subscribed.</p>
+            <button class="btn btn-outline-danger" name="action" value="unsubscribe">Unsubscribe from {{ publisher.name }}</button>
+        {% else %}
+            <button class="btn btn-success" name="action" value="subscribe">Subscribe to {{ publisher.name }}</button>
+        {% endif %}
+    </form>
+</div>
+{% empty %}<p>No publishers available yet.</p>{% endfor %}
+<h2>Independent journalists</h2>
+<p>Follow a journalist's articles published independently (without a publisher).
+For their publisher's news, subscribe to that publisher above.</p>
+{% for journalist in journalists %}
+<div class="card card-body mb-3">
+    <h3>{{ journalist.username }}</h3>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="kind" value="journalist">
+        <input type="hidden" name="target_id" value="{{ journalist.id }}">
+        {% if journalist.id in journalist_ids %}
+            <p>You are subscribed.</p>
+            <button class="btn btn-outline-danger" name="action" value="unsubscribe">Unsubscribe from {{ journalist.username }}</button>
+        {% else %}
+            <button class="btn btn-success" name="action" value="subscribe">Subscribe to {{ journalist.username }}</button>
+        {% endif %}
+    </form>
+</div>
+{% empty %}<p>No journalists available yet.</p>{% endfor %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mb-4">
+    Latest News
+</h1>
+
+<div class="row">
+
+{% for article in articles %}
+
+<div class="col-md-6">
+
+    <div class="card mb-3">
+
+        <div class="card-body">
+
+            <h4 class="card-title">
+                <a href="{% url 'article_detail' article.id %}">{{ article.title }}</a>
+            </h4>
+
+            <p class="card-text">
+                {{ article.content|truncatewords:20 }}
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

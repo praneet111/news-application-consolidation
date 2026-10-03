@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Publishers</h1>
+
+<a href="{% url 'create_publisher' %}" class="btn btn-primary mb-3">
+    Create Publisher
+</a>
+
+{% for publisher in publishers %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h4>{{ publisher.name }}</h4>
+
+            <p>
+                <strong>Editors:</strong>
+                {% for editor in publisher.editors.all %}
+                    {{ editor.username }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    None assigned
+                {% endfor %}
+            </p>
+
+            <p>
+                <strong>Journalists:</strong>
+                {% for journalist in publisher.journalists.all %}
+                    {{ journalist.username }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    None assigned
+                {% endfor %}
+            </p>
+
+            <a href="{% url 'edit_publisher' publisher.id %}"
+               class="btn btn-warning">
+                Edit Publisher
+            </a>
+        </div>
+    </div>
+{% empty %}
+    <div class="alert alert-info">
+        No publishers have been created yet.
+    </div>
+{% endfor %}
+
+{% endblock %}

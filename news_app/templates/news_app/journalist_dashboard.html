@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Journalist Dashboard</h1>
+
+<a href="{% url 'create_article' %}" class="btn btn-primary mb-3">
+    Create New Article
+</a>
+
+<div class="row">
+    {% for article in articles %}
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5>{{ article.title }}</h5>
+
+                    {% if article.approved %}
+                        <span class="badge bg-success">Approved</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">
+                            Pending Review
+                        </span>
+                    {% endif %}
+
+                    <hr>
+
+                    <a href="{% url 'article_detail' article.id %}"
+                       class="btn btn-info">
+                        View
+                    </a>
+
+                    <a href="{% url 'edit_article' article.id %}"
+                       class="btn btn-warning">
+                        Edit
+                    </a>
+
+                    <form method="post" action="{% url 'delete_article' article.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="alert alert-info">
+            No articles created yet.
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

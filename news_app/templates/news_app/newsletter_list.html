@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mb-3">Newsletters</h1>
+
+{% if user.role == "journalist" %}
+    <a href="{% url 'create_newsletter' %}" class="btn btn-primary mb-3">
+        Create Newsletter
+    </a>
+{% endif %}
+
+{% for newsletter in newsletters %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h4>{{ newsletter.title }}</h4>
+            <p>{{ newsletter.description }}</p>
+            <p><strong>Author:</strong> {{ newsletter.author.username|default:"Unassigned (legacy newsletter)" }}</p>
+
+            {% if newsletter.publisher %}
+                <p>
+                    <strong>Publisher:</strong> {{ newsletter.publisher.name }}
+                </p>
+            {% endif %}
+
+            <h6>Included Articles</h6>
+            <ul>
+                {% for article in newsletter.visible_articles %}
+                    <li>
+                        <a href="{% url 'article_detail' article.id %}">
+                            {{ article.title }}
+                        </a>
+                    </li>
+                {% empty %}
+                    <li>No articles added to this newsletter.</li>
+                {% endfor %}
+            </ul>
+
+            {% if user.role == "editor" or user.role == "journalist" and newsletter.author_id == user.id %}
+                <a href="{% url 'edit_newsletter' newsletter.id %}"
+                   class="btn btn-warning">
+                    Edit
+                </a>
+
+                <form method="post" action="{% url 'delete_newsletter' newsletter.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+{% empty %}
+    <div class="alert alert-info">
+        No newsletters yet.
+    </div>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>News Application</title>
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">News Application</a>
+
+        <div>
+            {% if user.is_authenticated %}
+                <a class="btn btn-outline-light me-2" href="{% url 'dashboard' %}">
+                    Dashboard
+                </a>
+
+                <a class="btn btn-outline-light me-2" href="{% url 'newsletter_list' %}">
+                    Newsletters
+                </a>
+
+                {% if user.role == "reader" %}
+                    <a class="btn btn-outline-light me-2" href="{% url 'subscriptions' %}">My Subscriptions</a>
+                {% endif %}
+                {% if user.role == "editor" %}
+                    <a class="btn btn-outline-light me-2" href="{% url 'publisher_list' %}">
+                        Publishers
+                    </a>
+                {% endif %}
+
+                <form
+                    method="post"
+                    action="{% url 'logout' %}"
+                    style="display:inline;"
+                >
+                    {% csrf_token %}
+                    <button class="btn btn-danger" type="submit">
+                        Logout
+                    </button>
+                </form>
+            {% else %}
+                <a class="btn btn-outline-light me-2" href="{% url 'login' %}">
+                    Login
+                </a>
+
+                <a class="btn btn-success" href="{% url 'register' %}">
+                    Register
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    {% for message in messages %}
+        <div class="alert alert-info" role="status">{{ message }}</div>
+    {% endfor %}
+    {% block content %}
+    {% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

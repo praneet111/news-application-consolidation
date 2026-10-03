@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Reader Dashboard</h1>
+<p><a href="{% url 'subscriptions' %}" class="btn btn-primary">Manage Subscriptions</a></p>
+<p><a href="{% url 'reader_dashboard' %}">All approved news</a> |
+<a href="{% url 'reader_dashboard' %}?feed=subscribed">My subscribed news</a></p>
+<h2>{% if only_subscribed %}My subscribed news{% else %}All approved news{% endif %}</h2>
+
+<div class="row">
+
+{% for article in articles %}
+
+<div class="col-md-6">
+
+    <div class="card mb-3">
+
+        <div class="card-body">
+
+            <h5><a href="{% url 'article_detail' article.id %}">{{ article.title }}</a></h5>
+
+            <p>{{ article.content|truncatewords:20 }}</p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% empty %}
+<p>No articles yet. Manage your subscriptions to follow publishers and independent journalists.</p>
+{% endfor %}
+
+</div>
+
+{% endblock %}
