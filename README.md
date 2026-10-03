@@ -184,3 +184,68 @@ Tests cover role and ownership matrices, API PUT/PATCH/DELETE, JWT authenticatio
 ## Scope
 
 The corrected project has been checked against the supplied ZIP, the full PDF brief and the lecturer's feedback. The lecturer's specific editor/newsletter restriction and X/Twitter waiver override the conflicting older PDF wording. `DESIGN_AND_REQUIREMENTS.md` records the normalized schema, functional/non-functional requirements, UI plan and implementation evidence. Actual grading remains the lecturer's decision.
+
+## Running with Docker
+
+Install and start Docker Desktop. Open a terminal in the project
+directory containing `manage.py` and `compose.yaml`.
+
+For first-time setup, copy the example configuration:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Edit `.env` and replace the password and secret-key placeholders.
+Use different database and root passwords. Keep this file private.
+Do not overwrite an existing configured `.env`.
+
+Build and start the application:
+
+```powershell
+docker compose up --build -d
+```
+
+Docker starts MariaDB, waits for it to become healthy, applies Django
+migrations, and starts the application.
+
+Open http://127.0.0.1:8000/ in your browser.
+
+Create an administrator account:
+
+```powershell
+docker compose exec web python manage.py createsuperuser
+```
+
+Run automated tests with an isolated SQLite test database:
+
+```powershell
+docker compose exec web python manage.py test --settings=news_project.test_settings
+```
+
+Stop the containers while preserving database data:
+
+```powershell
+docker compose down
+```
+
+MariaDB data is stored in a named Docker volume. This configuration
+uses Django's development server for local demonstration.
+
+## Building the Sphinx documentation
+
+From the project directory, with the virtual environment created:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-docs.txt
+.\.venv\Scripts\python.exe -m sphinx -b html docs docs/_build/html
+```
+
+Open `docs/_build/html/index.html` in your browser.
+Generated HTML is included in Git as required by the assignment.
+
+## Git branches
+
+- `docs`: docstring improvements and Sphinx documentation.
+- `container`: Dockerfile and MariaDB container configuration.
+- `main`: the merged application, documentation, and Docker setup.
