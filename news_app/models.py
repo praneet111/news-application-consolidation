@@ -76,7 +76,14 @@ class CustomUser(AbstractUser):
 
 
 class Article(models.Model):
-    """Represents a news article submitted by a journalist."""
+    """Store an article written by a journalist.
+
+    Each article records its author, content, publication timestamps,
+    and approval status. An optional publisher identifies publisher
+    content; a blank publisher identifies independent journalism.
+
+    Articles require editor approval before appearing in public feeds.
+    """
 
     title = models.CharField(max_length=255)
     content = models.TextField()
