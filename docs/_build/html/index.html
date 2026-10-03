@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>News Application Documentation &#8212; News Application 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="news-application-documentation">
+<h1>News Application Documentation<a class="headerlink" href="#news-application-documentation" title="Link to this heading">¶</a></h1>
+<p>This Django application allows journalists to write articles and
+newsletters, editors to review content, and readers to manage
+subscriptions.</p>
+<section id="user-roles">
+<h2>User roles<a class="headerlink" href="#user-roles" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Readers:</strong> view approved articles and newsletters, and manage
+subscriptions to publishers and independent journalists.</p></li>
+<li><p><strong>Journalists:</strong> create articles and newsletters, and update or
+delete their own content.</p></li>
+<li><p><strong>Editors:</strong> review and approve articles, update or delete content,
+and manage publishers. Editors cannot create newsletters.</p></li>
+</ul>
+</section>
+<section id="article-workflow">
+<h2>Article workflow<a class="headerlink" href="#article-workflow" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>A journalist creates an article.</p></li>
+<li><p>An editor reviews and approves it.</p></li>
+<li><p>Subscribers receive an email notification.</p></li>
+<li><p>If the journalist edits the article, it requires approval again.</p></li>
+</ol>
+</section>
+<section id="code-reference">
+<h2>Code reference<a class="headerlink" href="#code-reference" title="Link to this heading">¶</a></h2>
+<p>The following sections display documentation from the project’s
+Python modules, classes, and functions.</p>
+<section id="module-news_app.views">
+<span id="views"></span><h3>Views<a class="headerlink" href="#module-news_app.views" title="Link to this heading">¶</a></h3>
+<p>Handle browser requests for the news application.</p>
+<p>Provide registration, role-specific dashboards, article review,
+newsletter management, publisher management, and reader subscriptions.</p>
+<p>Views enforce role and ownership restrictions. Article approval and
+deletion require POST requests with CSRF protection.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.approve_article">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">approve_article</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">article_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#approve_article"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.approve_article" title="Link to this definition">¶</a></dt>
+<dd><p>Allow editors to approve articles.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.article_detail">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">article_detail</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">article_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#article_detail"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.article_detail" title="Link to this definition">¶</a></dt>
+<dd><p>Display a single article if the user has permission to view it.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.create_article">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">create_article</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#create_article"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.create_article" title="Link to this definition">¶</a></dt>
+<dd><p>Allow journalists to create articles.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.create_newsletter">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">create_newsletter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#create_newsletter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.create_newsletter" title="Link to this definition">¶</a></dt>
+<dd><p>Allow journalists to create newsletters with automatic ownership.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.create_publisher">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">create_publisher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#create_publisher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.create_publisher" title="Link to this definition">¶</a></dt>
+<dd><p>Allow editors to create publishers.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.dashboard">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#dashboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.dashboard" title="Link to this definition">¶</a></dt>
+<dd><p>Redirect logged-in users to their role dashboard.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.delete_article">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">delete_article</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">article_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#delete_article"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.delete_article" title="Link to this definition">¶</a></dt>
+<dd><p>Allow editors and article owners to delete articles.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.delete_newsletter">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">delete_newsletter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newsletter_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#delete_newsletter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.delete_newsletter" title="Link to this definition">¶</a></dt>
+<dd><p>Allow editors and journalist owners to manage newsletters.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.edit_article">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">edit_article</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">article_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#edit_article"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.edit_article" title="Link to this definition">¶</a></dt>
+<dd><p>Allow editors and article owners to edit articles.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.edit_newsletter">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">edit_newsletter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newsletter_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#edit_newsletter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.edit_newsletter" title="Link to this definition">¶</a></dt>
+<dd><p>Allow editors and journalist owners to manage newsletters.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.edit_publisher">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">edit_publisher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">publisher_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#edit_publisher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.edit_publisher" title="Link to this definition">¶</a></dt>
+<dd><p>Allow editors to update publisher editor and journalist assignments.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.editor_dashboard">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">editor_dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#editor_dashboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.editor_dashboard" title="Link to this definition">¶</a></dt>
+<dd><p>Display all articles for editor review and management.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.home">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">home</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#home"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.home" title="Link to this definition">¶</a></dt>
+<dd><p>Display approved articles on the homepage.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.journalist_dashboard">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">journalist_dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#journalist_dashboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.journalist_dashboard" title="Link to this definition">¶</a></dt>
+<dd><p>Display articles created by the logged-in journalist.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.newsletter_list">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">newsletter_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#newsletter_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.newsletter_list" title="Link to this definition">¶</a></dt>
+<dd><p>Display all newsletters.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.publisher_list">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">publisher_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#publisher_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.publisher_list" title="Link to this definition">¶</a></dt>
+<dd><p>Display publishers for editor management.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.reader_dashboard">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">reader_dashboard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#reader_dashboard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.reader_dashboard" title="Link to this definition">¶</a></dt>
+<dd><p>Display approved articles for readers.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.register">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.register" title="Link to this definition">¶</a></dt>
+<dd><p>Register a new user.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.views.subscriptions">
+<span class="sig-prename descclassname"><span class="pre">news_app.views.</span></span><span class="sig-name descname"><span class="pre">subscriptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/views.html#subscriptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.views.subscriptions" title="Link to this definition">¶</a></dt>
+<dd><p>Allow readers to manage only their own subscriptions.</p>
+</dd></dl>
+
+</section>
+<section id="module-news_app.models">
+<span id="models"></span><h3>Models<a class="headerlink" href="#module-news_app.models" title="Link to this heading">¶</a></h3>
+<p>Database models for the news application.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="news_app.models.Article">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">news_app.models.</span></span><span class="sig-name descname"><span class="pre">Article</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/models.html#Article"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.models.Article" title="Link to this definition">¶</a></dt>
+<dd><p>Store an article written by a journalist.</p>
+<p>Each article records its author, content, publication timestamps,
+and approval status. An optional publisher identifies publisher
+content; a blank publisher identifies independent journalism.</p>
+<p>Articles require editor approval before appearing in public feeds.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="news_app.models.Article.DoesNotExist">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#news_app.models.Article.DoesNotExist" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="news_app.models.Article.MultipleObjectsReturned">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#news_app.models.Article.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="news_app.models.Article.NotUpdated">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">NotUpdated</span></span><a class="headerlink" href="#news_app.models.Article.NotUpdated" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="news_app.models.CustomUser">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">news_app.models.</span></span><span class="sig-name descname"><span class="pre">CustomUser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/models.html#CustomUser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.models.CustomUser" title="Link to this definition">¶</a></dt>
+<dd><p>Custom user model with role-based access.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="news_app.models.CustomUser.DoesNotExist">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#news_app.models.CustomUser.DoesNotExist" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="news_app.models.CustomUser.MultipleObjectsReturned">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#news_app.models.CustomUser.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="news_app.models.CustomUser.NotUpdated">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">NotUpdated</span></span><a class="headerlink" href="#news_app.models.CustomUser.NotUpdated" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="news_app.models.CustomUser.independent_articles">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">independent_articles</span></span><a class="headerlink" href="#news_app.models.CustomUser.independent_articles" title="Link to this definition">¶</a></dt>
+<dd><p>Journalist-only reverse relation; not applicable to other roles.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="news_app.models.CustomUser.independent_newsletters">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">independent_newsletters</span></span><a class="headerlink" href="#news_app.models.CustomUser.independent_newsletters" title="Link to this definition">¶</a></dt>
+<dd><p>Journalist-only reverse relation without duplicating ownership.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="news_app.models.Newsletter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">news_app.models.</span></span><span class="sig-name descname"><span class="pre">Newsletter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/models.html#Newsletter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.models.Newsletter" title="Link to this definition">¶</a></dt>
+<dd><p>Represents a curated collection of approved articles.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="news_app.models.Newsletter.DoesNotExist">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#news_app.models.Newsletter.DoesNotExist" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="news_app.models.Newsletter.MultipleObjectsReturned">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#news_app.models.Newsletter.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="news_app.models.Newsletter.NotUpdated">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">NotUpdated</span></span><a class="headerlink" href="#news_app.models.Newsletter.NotUpdated" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="news_app.models.Publisher">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">news_app.models.</span></span><span class="sig-name descname"><span class="pre">Publisher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/models.html#Publisher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.models.Publisher" title="Link to this definition">¶</a></dt>
+<dd><p>Represents a publisher or news organisation.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="news_app.models.Publisher.DoesNotExist">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#news_app.models.Publisher.DoesNotExist" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="news_app.models.Publisher.MultipleObjectsReturned">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#news_app.models.Publisher.MultipleObjectsReturned" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="news_app.models.Publisher.NotUpdated">
+<span class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">NotUpdated</span></span><a class="headerlink" href="#news_app.models.Publisher.NotUpdated" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-news_app.selectors">
+<span id="subscription-queries"></span><h3>Subscription queries<a class="headerlink" href="#module-news_app.selectors" title="Link to this heading">¶</a></h3>
+<p>Queries shared by reader pages and the API.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="news_app.selectors.subscribed_articles">
+<span class="sig-prename descclassname"><span class="pre">news_app.selectors.</span></span><span class="sig-name descname"><span class="pre">subscribed_articles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/news_app/selectors.html#subscribed_articles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#news_app.selectors.subscribed_articles" title="Link to this definition">¶</a></dt>
+<dd><p>Return approved articles matching a reader’s subscriptions.</p>
+<p>Include articles from subscribed publishers and independent articles
+from subscribed journalists. Exclude unapproved articles and remove
+duplicate results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>user</strong> – The reader whose subscriptions determine the results.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Approved articles with author and publisher details.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>QuerySet</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">News Application</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2026, Praneet Chiba.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
