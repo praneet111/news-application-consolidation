@@ -1,4 +1,11 @@
-"""Views for the news application."""
+"""Handle browser requests for the news application.
+
+Provide registration, role-specific dashboards, article review,
+newsletter management, publisher management, and reader subscriptions.
+
+Views enforce role and ownership restrictions. Article approval and
+deletion require POST requests with CSRF protection.
+"""
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
